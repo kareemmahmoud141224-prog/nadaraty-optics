@@ -1,40 +1,188 @@
 <!doctype html>
 <html lang="ar" dir="rtl">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>مركز نضارتي للبصريات</title>
-<style>
-  *{box-sizing:border-box}
-  html,body{margin:0;padding:0;background:#fff}
-  body{min-height:100vh;display:flex;justify-content:center}
-  .page{position:relative;width:100%;max-width:1080px;line-height:0}
-  .page img{display:block;width:100%;height:auto}
-  .hotspot{
-    position:absolute;
-    left:14%;
-    width:72%;
-    height:8.5%;
-    display:block;
-    z-index:10;
-    cursor:pointer;
-  }
-  .facebook{top:54.0%}
-  .tiktok{top:64.5%}
-  .phone{top:75.0%}
-</style>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#ffffff">
+  <title>مركز نضارتي للبصريات</title>
+  <style>
+    :root { --ease: cubic-bezier(.2,.8,.2,1); }
+    * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+    html, body { margin: 0; padding: 0; min-height: 100%; background: #fff; }
+    body { display: flex; justify-content: center; }
+
+    .page {
+      position: relative;
+      width: min(100%, 1024px);
+      aspect-ratio: 1024 / 1536;
+      overflow: hidden;
+      isolation: isolate;
+      background: #fff url("nadaraty-landing.png") center top / 100% 100% no-repeat;
+      touch-action: manipulation;
+    }
+
+    /* Real interactive layers placed exactly over the three artwork buttons. */
+    .action {
+      position: absolute;
+      left: 15.15%;
+      width: 69.6%;
+      height: 9.1%;
+      border-radius: 4.6vw;
+      max-width: 714px;
+      display: block;
+      text-decoration: none;
+      outline: none;
+      z-index: 5;
+      transition: transform .2s var(--ease), filter .2s var(--ease), box-shadow .2s var(--ease), opacity .2s ease;
+      cursor: pointer;
+      overflow: hidden;
+    }
+
+    .facebook { top: 51.55%; }
+    .tiktok   { top: 62.35%; }
+    .phone    { top: 73.30%; }
+
+    .facebook::before { background: rgba(255,255,255,.16); }
+    .tiktok::before   { background: rgba(255,255,255,.20); }
+    .phone::before    { background: rgba(166,103,34,.16); }
+
+    /* The overlay is intentionally subtle so the supplied background stays visible. */
+    .action::before {
+      content: "";
+      position: absolute;
+      inset: 1px;
+      border-radius: inherit;
+      opacity: 0;
+      background: rgba(255,255,255,.16);
+      box-shadow: 0 0 0 2px rgba(255,255,255,.72), 0 10px 28px rgba(80,45,15,.22);
+      transition: opacity .2s ease;
+      pointer-events: none;
+    }
+
+    .action::after {
+      content: "";
+      position: absolute;
+      top: -20%;
+      bottom: -20%;
+      width: 22%;
+      left: -35%;
+      transform: skewX(-18deg);
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,.55), transparent);
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .action:hover,
+    .action:focus-visible {
+      transform: translateY(-7px) scale(1.012);
+      filter: brightness(1.08) saturate(1.14) drop-shadow(0 10px 12px rgba(0,0,0,.16));
+    }
+    .action:hover::before,
+    .action:focus-visible::before { opacity: 1; }
+
+    .action.is-pressed {
+      transform: translateY(-10px) scale(1.018);
+      filter: brightness(1.16) saturate(1.18) drop-shadow(0 13px 16px rgba(0,0,0,.20));
+    }
+    .action.is-pressed::before { opacity: 1; }
+    .action.is-pressed::after {
+      opacity: .9;
+      animation: shine .32s ease-out 1;
+    }
+
+    .ripple {
+      position: absolute;
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      background: rgba(255,255,255,.65);
+      transform: translate(-50%, -50%) scale(0);
+      pointer-events: none;
+      animation: ripple .45s ease-out forwards;
+      z-index: 10;
+    }
+
+    @keyframes ripple {
+      0%   { transform: translate(-50%, -50%) scale(0); opacity: .9; }
+      100% { transform: translate(-50%, -50%) scale(18); opacity: 0; }
+    }
+    @keyframes shine {
+      0% { left: -35%; }
+      100% { left: 120%; }
+    }
+
+    @media (max-width: 600px) {
+      .action { border-radius: 24px; }
+      .action:hover { transform: none; filter: none; }
+      .action.is-pressed { transform: translateY(-7px) scale(1.012); }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .action, .action::before, .action::after { transition: none; }
+      .action.is-pressed { transform: none; }
+      .ripple { animation: none; opacity: 0; }
+    }
+  </style>
 </head>
 <body>
-<main class="page">
-  <img src="nadaraty-landing.png" alt="مركز نضارتي للبصريات">
-  <a class="hotspot facebook"
-     href="https://www.facebook.com/share/1DcQSDp2eR/?mibextid=wwXIfr"
-     target="_blank" rel="noopener noreferrer" aria-label="Facebook"></a>
-  <a class="hotspot tiktok"
-     href="https://www.tiktok.com/@ehabkmal56"
-     target="_blank" rel="noopener noreferrer" aria-label="TikTok"></a>
-  <a class="hotspot phone"
-     href="tel:01099993336" aria-label="اتصل بنا"></a>
-</main>
+  <main class="page" aria-label="مركز نضارتي للبصريات">
+    <a class="action facebook"
+       href="https://www.facebook.com/share/1DcQSDp2eR/?mibextid=wwXIfr"
+       aria-label="فتح صفحة نضارتي على فيسبوك"
+       data-label="Facebook"></a>
+
+    <a class="action tiktok"
+       href="https://www.tiktok.com/@ehabkmal56"
+       aria-label="فتح حساب نضارتي على تيك توك"
+       data-label="TikTok"></a>
+
+    <a class="action phone"
+       href="tel:01099993336"
+       aria-label="الاتصال بمركز نضارتي على 01099993336"
+       data-label="Phone"></a>
+  </main>
+
+  <script>
+    (() => {
+      const actions = document.querySelectorAll('.action');
+      let timer;
+
+      actions.forEach(action => {
+        const press = (event) => {
+          action.classList.add('is-pressed');
+
+          const rect = action.getBoundingClientRect();
+          const point = event.touches?.[0] || event;
+          const x = (point.clientX ?? (rect.left + rect.width / 2)) - rect.left;
+          const y = (point.clientY ?? (rect.top + rect.height / 2)) - rect.top;
+
+          const ripple = document.createElement('span');
+          ripple.className = 'ripple';
+          ripple.style.left = `${x}px`;
+          ripple.style.top = `${y}px`;
+          action.appendChild(ripple);
+          setTimeout(() => ripple.remove(), 500);
+        };
+
+        const release = () => {
+          clearTimeout(timer);
+          timer = setTimeout(() => action.classList.remove('is-pressed'), 180);
+        };
+
+        action.addEventListener('pointerdown', press, { passive: true });
+        action.addEventListener('pointerup', release, { passive: true });
+        action.addEventListener('pointercancel', release, { passive: true });
+        action.addEventListener('pointerleave', () => action.classList.remove('is-pressed'));
+        action.addEventListener('click', (event) => {
+          event.preventDefault();
+          action.classList.add('is-pressed');
+          clearTimeout(timer);
+          timer = setTimeout(() => {
+            window.location.assign(action.href);
+          }, 230);
+        });
+      });
+    })();
+  </script>
 </body>
 </html>
